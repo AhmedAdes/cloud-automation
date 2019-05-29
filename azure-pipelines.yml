@@ -13,7 +13,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: apt-get -y update
+    - script: sudo apt-get -y update
     - script: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
   # - job: Pre-Build
   #   dependsOn: Install
