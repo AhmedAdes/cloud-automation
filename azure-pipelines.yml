@@ -9,11 +9,21 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Hello, Ahmed!
-  displayName: 'Run a one-line script'
+stages:
+  
+- stage: Install
+  jobs:
+  - job: Install
+    steps:
+    - script: apt-get -y update
+    - script: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  # - job: Pre-Build
+  #   dependsOn: Install
+  #   steps:
+  #     - script: npm install
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - script: az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime='node'
