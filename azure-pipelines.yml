@@ -10,19 +10,21 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-- stage: Install
+- stage: Build
   jobs:
-  - job: Install
+  - job: BuildJob
     steps:
-    - script: apt-get -y update
-    - script: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-  # - job: Pre-Build
-  #   dependsOn: Install
-  #   steps:
-  #     - script: npm install
-
+    - script: echo Building!
+- stage: Test
+  jobs:
+  - job: TestOnWindows
+    steps:
+    - script: echo Testing on Windows!
+  - job: TestOnLinux
+    steps:
+    - script: echo Testing on Linux!
 - stage: Deploy
   jobs:
   - job: Deploy
     steps:
-    - script: az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime='node'
+    - script: echo Deploying the code!

@@ -1,0 +1,28 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Install
+  jobs:
+  - job: Install
+    steps:
+    - script: apt-get -y update
+    - script: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  # - job: Pre-Build
+  #   dependsOn: Install
+  #   steps:
+  #     - script: npm install
+
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - script: az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime='node'
