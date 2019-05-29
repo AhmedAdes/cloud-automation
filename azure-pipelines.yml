@@ -13,4 +13,9 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime='node'
+    - task: AzureCLI@1
+      displayName: 'Azure CLI '
+      inputs:
+        azureSubscription: 'Visual Studio Enterprise: BizSpark (167a7646-c2be-464b-b660-d6070cd467a0)'
+        scriptLocation: inlineScript
+        inlineScript: 'az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime=''node'''
