@@ -29,7 +29,7 @@ stages:
     - script: echo Testing on Linux!
 - stage: Deploy
   jobs:
-  - deployment: Deploy
+  - job: Deploy
     pool:
       vmImage: 'ubuntu-latest'
     steps:

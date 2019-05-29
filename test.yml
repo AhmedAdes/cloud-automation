@@ -6,13 +6,12 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 stages:
 - stage: Install
   jobs:
   - job: Install
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
     - script: apt-get -y update
     - script: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
@@ -24,5 +23,7 @@ stages:
 - stage: Deploy
   jobs:
   - job: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
     - script: az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime='node'
