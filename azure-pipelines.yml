@@ -6,31 +6,11 @@
 trigger:
 - master
 
-
 stages:
-- stage: Build
-  jobs:
-  - job: BuildJob  
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: echo Building!
-- stage: Test
-  jobs:
-  - job: TestOnWindows
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: echo Testing on Windows!
-  - job: TestOnLinux
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: echo Testing on Linux!
 - stage: Deploy
   jobs:
   - job: Deploy
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo Deploying the code!
+    - script: az group deployment create --name ExampleDeployment --resource-group $(resource-group) --template-file azuredeploy.json --parameters environment=$(environment) runtime='node'
