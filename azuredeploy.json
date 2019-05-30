@@ -279,7 +279,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
         "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
-        "[resourceId('Microsoft.ApiManagement/service/properties/', variables('functionsAppName'), '-key')]"
+        "[resourceId('Microsoft.ApiManagement/service/properties/', concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key'))]"
       ],
       "properties": {
         "description": "[variables('functionsAppName')]",
@@ -289,7 +289,7 @@
         "credentials": {
           "header": {
             "x-functions-key": [
-              "[reference(resourceId('Microsoft.ApiManagement/service/properties/', variables('functionsAppName'), '-key')).properties.value]"
+              "[reference(resourceId('Microsoft.ApiManagement/service/properties/', concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key'))).properties.value]"
             ]
           }
         }
