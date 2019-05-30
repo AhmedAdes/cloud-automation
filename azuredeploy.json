@@ -133,7 +133,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('functionsAppName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-        "[resourceId('microsoft.insights/components/', variables('functionsAppName'))]"
+        "[resourceId('microsoft.insights/components', variables('functionsAppName'))]"
       ],
       "identity": {
         "type": "SystemAssigned"
@@ -168,7 +168,7 @@
             },
             {
               "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(resourceId('microsoft.insights/components/', variables('functionsAppName')), '2015-05-01').InstrumentationKey]"
+              "value": "[reference(resourceId('microsoft.insights/components', variables('functionsAppName')), '2015-05-01').InstrumentationKey]"
             }
           ]
         }
@@ -193,7 +193,7 @@
       "apiVersion": "2019-01-01",
       "name": "[concat(variables('apiManagementServiceName'), '/dashboard')]",
       "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
+        "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]"
       ],
       "properties": {
         "displayName": "[concat('ck-', parameters('environment'), '-dashboard')]",
@@ -218,7 +218,7 @@
       "apiVersion": "2019-01-01",
       "name": "[concat(variables('apiManagementServiceName'), '/terminal')]",
       "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
+        "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]"
       ],
       "properties": {
         "displayName": "[concat('ck-', parameters('environment'), '-terminal')]",
@@ -244,15 +244,15 @@
       "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
-        "[resourceId('Microsoft.insights/components/', variables('functionsAppName'))]"
+        "[resourceId('Microsoft.insights/components', variables('functionsAppName'))]"
       ],
       "properties": {
         "loggerType": "applicationInsights",
         "credentials": {
-          "instrumentationKey": "[reference(resourceId('microsoft.insights/components/', variables('functionsAppName')), '2015-05-01').InstrumentationKey]"
+          "instrumentationKey": "[reference(resourceId('microsoft.insights/components', variables('functionsAppName')), '2015-05-01').InstrumentationKey]"
         },
         "isBuffered": true,
-        "resourceId": "[resourceId('microsoft.insights/components/', variables('functionsAppName'))]"
+        "resourceId": "[resourceId('microsoft.insights/components', variables('functionsAppName'))]"
       }
     },
     {
@@ -279,18 +279,18 @@
       "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
-        "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
-        "[resourceId('Microsoft.ApiManagement/service/properties/', variables('apiManagementHostKey'))]"
+        "[resourceId('Microsoft.Web/sites', variables('functionsAppName'))]",
+        "[resourceId('Microsoft.ApiManagement/service/properties', variables('apiManagementHostKey'))]"
       ],
       "properties": {
         "description": "[variables('functionsAppName')]",
         "url": "[concat('https://', variables('functionsAppName'), '.azurewebsites.net/api')]",
         "protocol": "http",
-        "resourceId": "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
+        "resourceId": "[resourceId('Microsoft.Web/sites', variables('functionsAppName'))]",
         "credentials": {
           "header": {
             "x-functions-key": [
-              "[reference(resourceId('Microsoft.ApiManagement/service/properties/', variables('apiManagementHostKey'))).properties.value]"
+              "[reference(resourceId('Microsoft.ApiManagement/service/properties', variables('apiManagementHostKey'))).properties.value]"
             ]
           }
         }
@@ -308,7 +308,7 @@
     },
     "appIdentityObjectId": {
       "type": "string",
-      "value": "[reference(concat(resourceId('Microsoft.Web/sites/', variables('functionsAppName')), '/providers/Microsoft.ManagedIdentity/Identities/default'), '2015-08-31-preview').principalId]"
+      "value": "[reference(concat(resourceId('Microsoft.Web/sites', variables('functionsAppName')), '/providers/Microsoft.ManagedIdentity/Identities/default'), '2015-08-31-preview').principalId]"
     }
   }
 }
