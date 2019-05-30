@@ -256,31 +256,12 @@
       }
     },
     {
-      "type": "Microsoft.ApiManagement/service/properties",
-      "apiVersion": "2019-01-01",
-      "name": "[variables('apiManagementHostKey')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]"
-      ],
-      "properties": {
-        "displayName": "[concat(variables('functionsAppName'), '-key')]",
-        "value": "R/aEamVyJ7YSnT6ifDDMaSfsjYLAUzWoBaHRa4m3GnZSqiB8Bzebgg==",
-        "tags": [
-          "key",
-          "function",
-          "auto"
-        ],
-        "secret": true
-      }
-    },
-    {
       "type": "Microsoft.ApiManagement/service/backends",
       "apiVersion": "2019-01-01",
       "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
-        "[resourceId('Microsoft.Web/sites', variables('functionsAppName'))]",
-        "[resourceId('Microsoft.ApiManagement/service/properties', variables('apiManagementHostKey'))]"
+        "[resourceId('Microsoft.Web/sites', variables('functionsAppName'))]"
       ],
       "properties": {
         "description": "[variables('functionsAppName')]",
@@ -290,7 +271,7 @@
         "credentials": {
           "header": {
             "x-functions-key": [
-              "[reference(resourceId('Microsoft.ApiManagement/service/properties', variables('apiManagementHostKey'))).properties.value]"
+              "R/aEamVyJ7YSnT6ifDDMaSfsjYLAUzWoBaHRa4m3GnZSqiB8Bzebgg=="
             ]
           }
         }
