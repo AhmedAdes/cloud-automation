@@ -79,7 +79,7 @@
   },
   "variables": {
     "storageAccountName": "[concat('storage', parameters('environment'), uniquestring(resourceGroup().id))]",
-    "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+    "storageAccountId": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
     "functionsAppName": "[concat('fx-', parameters('environment'), '-', uniquestring(resourceGroup().id))]",
     "functionWorkerRuntime": "[parameters('runtime')]",
     "apiManagementServiceName": "[concat('ck-api-', parameters('environment'))]"
@@ -143,11 +143,11 @@
           "appSettings": [
             {
               "name": "AzureWebJobsStorage",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
             },
             {
               "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
             },
             {
               "name": "WEBSITE_CONTENTSHARE",
@@ -174,7 +174,7 @@
       }
     },
     {
-      "type": "Microsof.ApiManagement/service",
+      "type": "Microsoft.ApiManagement/service",
       "apiVersion": "2019-01-01",
       "name": "[variables('apiManagementServiceName')]",
       "sku": {
@@ -195,7 +195,7 @@
         "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
       ],
       "properties": {
-        "displayName": "circlek-dev-dashboard",
+        "displayName": "[concat('ck-', parameters('environment'), '-dashboard')]",
         "description": "Import from Function App",
         "subscriptionRequired": true,
         "path": "dash",
@@ -220,7 +220,7 @@
         "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
       ],
       "properties": {
-        "displayName": "circlek-dev-terminal",
+        "displayName": "[concat('ck-', parameters('environment'), '-terminal')]",
         "description": "Import from Function App",
         "subscriptionRequired": true,
         "path": "terminal",
@@ -303,7 +303,7 @@
     },
     "storageConnectionString": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountId'),'2015-05-01-preview').key1)]"
     },
     "appIdentityObjectId": {
       "type": "string",
