@@ -185,117 +185,115 @@
       "properties": {
         "publisherEmail": "[parameters('publisherEmail')]",
         "publisherName": "[parameters('publisherName')]"
-      },
-      "resources": [
-        {
-          "type": "Microsoft.ApiManagement/service/apis",
-          "apiVersion": "2019-01-01",
-          "name": "[concat(variables('apiManagementServiceName'), '/dashboard')]",
-          "dependsOn": [
-            "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
-          ],
-          "properties": {
-            "displayName": "circlek-dev-dashboard",
-            "description": "Import from Function App",
-            "subscriptionRequired": true,
-            "path": "dash",
-            "authenticationSettings": {
-              "subscriptionKeyRequired": true
-            },
-            "subscriptionKeyParameterNames": {
-              "header": "Ocp-Apim-Subscription-Key",
-              "query": "subscription-key"
-            },
-            "protocols": [
-              "HTTPS"
-            ],
-            "isCurrent": true
-          }
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(variables('apiManagementServiceName'), '/dashboard')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "displayName": "circlek-dev-dashboard",
+        "description": "Import from Function App",
+        "subscriptionRequired": true,
+        "path": "dash",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": true
         },
-        {
-          "type": "Microsoft.ApiManagement/service/apis",
-          "apiVersion": "2019-01-01",
-          "name": "[concat(variables('apiManagementServiceName'), '/terminal')]",
-          "dependsOn": [
-            "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
-          ],
-          "properties": {
-            "displayName": "circlek-dev-terminal",
-            "description": "Import from Function App",
-            "subscriptionRequired": true,
-            "path": "terminal",
-            "authenticationSettings": {
-              "subscriptionKeyRequired": true
-            },
-            "subscriptionKeyParameterNames": {
-              "header": "Ocp-Apim-Subscription-Key",
-              "query": "subscription-key"
-            },
-            "protocols": [
-              "HTTPS"
-            ],
-            "isCurrent": true
-          }
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
         },
-        {
-          "type": "Microsoft.ApiManagement/service/loggers",
-          "apiVersion": "2019-01-01",
-          "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
-          "dependsOn": [
-            "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
-            "[resourceId('Microsoft.insights/components/', variables('functionsAppName'))]"
-          ],
-          "properties": {
-            "loggerType": "applicationInsights",
-            "credentials": {
-              "instrumentationKey": "[reference(resourceId('microsoft.insights/components/', variables('functionsAppName')), '2015-05-01').InstrumentationKey]"
-            },
-            "isBuffered": true,
-            "resourceId": "[resourceId('microsoft.insights/components/', variables('functionsAppName'))]"
-          }
+        "protocols": [
+          "HTTPS"
+        ],
+        "isCurrent": true
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(variables('apiManagementServiceName'), '/terminal')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/', variables('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "displayName": "circlek-dev-terminal",
+        "description": "Import from Function App",
+        "subscriptionRequired": true,
+        "path": "terminal",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": true
         },
-        {
-          "type": "Microsoft.ApiManagement/service/properties",
-          "apiVersion": "2019-01-01",
-          "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key')]",
-          "dependsOn": [
-            "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]"
-          ],
-          "properties": {
-            "displayName": "[concat(variables('functionsAppName'), '-key')]",
-            "value": "R/aEamVyJ7YSnT6ifDDMaSfsjYLAUzWoBaHRa4m3GnZSqiB8Bzebgg==",
-            "tags": [
-              "key",
-              "function",
-              "auto"
-            ],
-            "secret": true
-          }
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
         },
-        {
-          "type": "Microsoft.ApiManagement/service/backends",
-          "apiVersion": "2019-01-01",
-          "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
-          "dependsOn": [
-            "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
-            "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
-            "[resourceId('Microsoft.ApiManagement/service/properties/', variables('functionsAppName'), '-key')]"
-          ],
-          "properties": {
-            "description": "[variables('functionsAppName')]",
-            "url": "[concat('https://', variables('functionsAppName'), '.azurewebsites.net/api')]",
-            "protocol": "http",
-            "resourceId": "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
-            "credentials": {
-              "header": {
-                "x-functions-key": [
-                  "[reference(resourceId('Microsoft.ApiManagement/service/properties/', variables('functionsAppName'), '-key')).properties.value]"
-                ]
-              }
-            }
+        "protocols": [
+          "HTTPS"
+        ],
+        "isCurrent": true
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/loggers",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
+        "[resourceId('Microsoft.insights/components/', variables('functionsAppName'))]"
+      ],
+      "properties": {
+        "loggerType": "applicationInsights",
+        "credentials": {
+          "instrumentationKey": "[reference(resourceId('microsoft.insights/components/', variables('functionsAppName')), '2015-05-01').InstrumentationKey]"
+        },
+        "isBuffered": true,
+        "resourceId": "[resourceId('microsoft.insights/components/', variables('functionsAppName'))]"
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/properties",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]"
+      ],
+      "properties": {
+        "displayName": "[concat(variables('functionsAppName'), '-key')]",
+        "value": "R/aEamVyJ7YSnT6ifDDMaSfsjYLAUzWoBaHRa4m3GnZSqiB8Bzebgg==",
+        "tags": [
+          "key",
+          "function",
+          "auto"
+        ],
+        "secret": true
+      }
+    },
+    {
+      "type": "Microsoft.ApiManagement/service/backends",
+      "apiVersion": "2019-01-01",
+      "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
+        "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
+        "[resourceId('Microsoft.ApiManagement/service/properties/', variables('functionsAppName'), '-key')]"
+      ],
+      "properties": {
+        "description": "[variables('functionsAppName')]",
+        "url": "[concat('https://', variables('functionsAppName'), '.azurewebsites.net/api')]",
+        "protocol": "http",
+        "resourceId": "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
+        "credentials": {
+          "header": {
+            "x-functions-key": [
+              "[reference(resourceId('Microsoft.ApiManagement/service/properties/', variables('functionsAppName'), '-key')).properties.value]"
+            ]
           }
         }
-      ]
+      }
     }
   ],
   "outputs": {
