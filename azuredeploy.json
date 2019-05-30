@@ -82,7 +82,8 @@
     "storageAccountId": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
     "functionsAppName": "[concat('fx-', parameters('environment'), '-', uniquestring(resourceGroup().id))]",
     "functionWorkerRuntime": "[parameters('runtime')]",
-    "apiManagementServiceName": "[concat('ck-api-', parameters('environment'))]"
+    "apiManagementServiceName": "[concat('ck-api-', parameters('environment'))]",
+    "apiManagementHostKey": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key')]"
   },
   "resources": [
     {
@@ -257,7 +258,7 @@
     {
       "type": "Microsoft.ApiManagement/service/properties",
       "apiVersion": "2019-01-01",
-      "name": "[concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key')]",
+      "name": "[variables('apiManagementHostKey')]",
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]"
       ],
@@ -279,7 +280,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.ApiManagement/service', variables('apiManagementServiceName'))]",
         "[resourceId('Microsoft.Web/sites/', variables('functionsAppName'))]",
-        "[resourceId('Microsoft.ApiManagement/service/properties/', concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key'))]"
+        "[resourceId('Microsoft.ApiManagement/service/properties/', variables('apiManagementHostKey'))]"
       ],
       "properties": {
         "description": "[variables('functionsAppName')]",
@@ -289,7 +290,7 @@
         "credentials": {
           "header": {
             "x-functions-key": [
-              "[reference(resourceId('Microsoft.ApiManagement/service/properties/', concat(variables('apiManagementServiceName'), '/', variables('functionsAppName'), '-key'))).properties.value]"
+              "[reference(resourceId('Microsoft.ApiManagement/service/properties/', variables('apiManagementHostKey'))).properties.value]"
             ]
           }
         }
