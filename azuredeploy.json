@@ -7,7 +7,7 @@
       "defaultValue": "dev",
       "allowedValues": [
         "dev",
-        "staging",
+        "stg",
         "prod"
       ],
       "metadata": {
